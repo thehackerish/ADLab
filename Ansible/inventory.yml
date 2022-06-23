@@ -1,0 +1,12 @@
+---
+windows:
+  children:
+    dc:
+      hosts:
+        10.13.37.10:
+    winserv2019:
+      hosts:
+        10.13.37.100:
+    win10:
+      hosts:
+        10.13.37.150:
