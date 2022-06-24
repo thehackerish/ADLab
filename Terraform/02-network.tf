@@ -1,3 +1,8 @@
+# Get the current public IP for deployment whitelisting
+data "http" "public-ip" {
+  url = "http://ipv4.icanhazip.com"
+}
+
 # Create a virtual network within the resource group
 resource "azurerm_virtual_network" "thehackerish-vnet" {
   name                = "thehackerish-vnet"
@@ -28,7 +33,7 @@ resource "azurerm_network_security_group" "thehackerish-nsg" {
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "22"
-    source_address_prefixes    = var.ip-whitelist
+    source_address_prefixes    = "${distinct(concat(var.ip-whitelist, [chomp(data.http.public-ip.body)]))}"
     destination_address_prefix = "*"
   }
 
